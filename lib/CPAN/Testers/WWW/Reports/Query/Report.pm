@@ -3,7 +3,7 @@ package CPAN::Testers::WWW::Reports::Query::Report;
 use strict;
 use warnings;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
  
 #----------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ sub report {
     my $url = sprintf $PATH, $self->{host}, $hash{report};
 	eval { $mech->get( $url ); };
     if($@ || !$mech->success()) {
-        $self->{error} = $@;
+        $self->{error} = "No response from server: $@";
         return;
     }
 
@@ -111,7 +111,7 @@ sub report {
     };
 
     if($@ || !$data) {
-        $self->{error} = $@ || 'no data returned';
+        $self->{error} = "JSON decoding error: " . ($@ || 'no data returned');
         return;
     }
 
@@ -131,7 +131,7 @@ sub _parse {
     my $hash;
 
     if(!$data) {
-        $self->{error} = $@ || 'no data returned';
+        $self->{error} = 'no data returned';
         return;
     }
 
