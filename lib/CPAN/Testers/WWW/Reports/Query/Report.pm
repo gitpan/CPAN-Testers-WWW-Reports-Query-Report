@@ -3,7 +3,7 @@ package CPAN::Testers::WWW::Reports::Query::Report;
 use strict;
 use warnings;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
  
 #----------------------------------------------------------------------------
 
@@ -115,7 +115,10 @@ sub report {
         return;
     }
 
-    return unless($data->{success});
+    unless($data->{success}) {
+        $self->{error} = "no report found";
+        return;
+    }
 
     my $as = ($hash{as_json} || (!defined $hash{as_json} && $self->{as_json})) ? 'json' : '';
     $as  ||= ($hash{as_hash} || (!defined $hash{as_hash} && $self->{as_hash})) ? 'hash' : 'fact';
@@ -212,6 +215,30 @@ F<http://stats.cpantesters.org/>,
 F<http://wiki.cpantesters.org/>
 
 Initially written during the 2014 QA Hackathon in Lyon.
+
+=head1 CPAN TESTERS FUND
+
+CPAN Testers wouldn't exist without the help and support of the Perl 
+community. However, since 2008 CPAN Testers has grown far beyond the 
+expectations of it's original creators. As a consequence it now requires
+considerable funding to help support the infrastructure.
+
+In early 2012 the Enlightened Perl Organisation very kindly set-up a
+CPAN Testers Fund within their donatation structure, to help the project
+cover the costs of servers and services.
+
+If you would like to donate to the CPAN Testers Fund, please follow the link
+below to the Enlightened Perl Organisation's donation site.
+
+L<https://members.enlightenedperl.org/drupal/donate-cpan-testers>
+
+If your company would like to support us, you can donate financially via the
+fund link above, or if you have servers or services that we might use, please
+send an email to admin@cpantesters.org with details.
+
+Our full list of current sponsors can be found at our I <3 CPAN Testers site.
+
+L<http://iheart.cpantesters.org>
 
 =head1 AUTHOR
 
